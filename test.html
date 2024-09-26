@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    .highlight {
+      background-color: yellow;
+    }
+
+    .suggestions {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      width: auto;
+      border-radius: 7px;
+    }
+
+    .suggestion-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5vh;
+      font-weight: 400;
+    }
+
+    .search-form {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+
+    .card {
+      margin: 10px;
+      border-radius: 7px;
+      border: none;
+      border: 1px solid rgb(225, 225, 225);
+      /* Add your box shadow here */
+    }
+
+    .card img {
+      border: 05px solid rgb(227, 227, 227);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .download-btn {
+      background-color: #FCDE70;
+      /* Bootstrap primary color */
+      color: rgb(0, 0, 0);
+      border: none;
+      border-radius: 0px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Readhub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="search-container">
+    <form class="search-form" onsubmit="return searchFunction(event)">
+      <div class="input-group">
+        <input class="form-control" type="search" placeholder="Search by title, author, or ISBN" aria-label="Search"
+          id="searchInput" oninput="showSuggestions()">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </div>
+      <div id="suggestions" class="suggestions" style="display: none;"></div>
+    </form>
+  </div>
+
+  <div class="container mt-3">
+    <div class="row" id="cardsContainer">
+      <div class="col-8 col-md-2 col-lg-2" id="card3">
+        <div class="card mb-2">
+          <img
+            src="https://lh5.googleusercontent.com/Bkndr-VAPgFxwNv-Wp-LYnwnGz_gZI7p2SfITGLaU6Z2jgCKTssWYOxKfR6mNYszm26-s0oChIFTf38ZMd1veKoQ3_L4Q8Vqb0ciI49eBStFz5YZqiaYBNLM4mUMFI9F19swOf9R"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Introduction to Machine Learning</h5>
+            <p class="card-text">
+            <div class="author">Alice Smith</div>
+            <div class="isbn">33-2092-222</div>
+            </p>
+            <button class="download-btn"><a href="http://link1.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-8 col-md-4 col-lg-3" id="card4">
+        <div class="card mb-2">
+          <img
+            src="https://lh5.googleusercontent.com/Bkndr-VAPgFxwNv-Wp-LYnwnGz_gZI7p2SfITGLaU6Z2jgCKTssWYOxKfR6mNYszm26-s0oChIFTf38ZMd1veKoQ3_L4Q8Vqb0ciI49eBStFz5YZqiaYBNLM4mUMFI9F19swOf9R"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Deep Learning with TensorFlow</h5>
+            <p class="card-text">
+            <div class="author">Bob Johnson</div>
+            <div class="isbn">33-2092-223</div>
+            </p>
+            <button class="download-btn"><a href="http://link2.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3" id="card5">
+        <div class="card mb-2">
+          <img
+            src="https://lh5.googleusercontent.com/Bkndr-VAPgFxwNv-Wp-LYnwnGz_gZI7p2SfITGLaU6Z2jgCKTssWYOxKfR6mNYszm26-s0oChIFTf38ZMd1veKoQ3_L4Q8Vqb0ciI49eBStFz5YZqiaYBNLM4mUMFI9F19swOf9R"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Advanced Statistics</h5>
+            <p class="card-text">
+            <div class="author">Tukun</div>
+            <div class="isbn">33-2092-224</div>
+            </p>
+            <button class="download-btn"><a href="http://link3.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3" id="card6">
+        <div class="card mb-2">
+          <img
+            src="https://lh5.googleusercontent.com/Bkndr-VAPgFxwNv-Wp-LYnwnGz_gZI7p2SfITGLaU6Z2jgCKTssWYOxKfR6mNYszm26-s0oChIFTf38ZMd1veKoQ3_L4Q8Vqb0ciI49eBStFz5YZqiaYBNLM4mUMFI9F19swOf9R"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Data Mining Techniques</h5>
+            <p class="card-text">
+            <div class="author">Alice Smith</div>
+            <div class="isbn">33-2092-225</div>
+            </p>
+            <button class="download-btn"><a href="http://link4.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3" id="card7">
+        <div class="card mb-2">
+          <img
+            src="https://lh5.googleusercontent.com/Bkndr-VAPgFxwNv-Wp-LYnwnGz_gZI7p2SfITGLaU6Z2jgCKTssWYOxKfR6mNYszm26-s0oChIFTf38ZMd1veKoQ3_L4Q8Vqb0ciI49eBStFz5YZqiaYBNLM4mUMFI9F19swOf9R"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Machine Learning in Practice</h5>
+            <p class="card-text">
+            <div class="author">Bob Johnson</div>
+            <div class="isbn">33-2092-226</div>
+            </p>
+            <button class="download-btn"><a href="http://link5.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-3" id="card8">
+        <div class="card mb-2">
+          <img src="NA.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Artificial Intelligence Fundamentals</h5>
+            <p class="card-text">
+            <div class="author">Tukun</div>
+            <div class="isbn">33-2092-227</div>
+            </p>
+            <button class="download-btn"><a href="http://link6.com"
+                style="color: white; text-decoration: none;">Download</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let titles = []; // Declare an empty array for titles
+    let cardsData = []; // Declare an empty array for cards data
+
+    // Fetch card titles and other details from the DOM when the page loads
+    window.onload = function () {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const titleElement = card.querySelector('.card-title');
+        const authorElement = card.querySelector('.author');
+        const isbnElement = card.querySelector('.isbn');
+        const imgElement = card.querySelector('img'); // Get the image element
+
+        // Populate the cardsData array with objects
+        cardsData.push({
+          title: titleElement.innerText,
+          author: authorElement.innerText,
+          isbn: isbnElement.innerText,
+          image: imgElement.src, // Store the image source
+          id: card.id // Associate title with card ID
+        });
+      });
+
+      // Populate titles for suggestions
+      titles = cardsData.map(card => ({ text: card.title, id: card.id }));
+      renderCards(); // Render the cards on page load
+    };
+
+    function renderCards() {
+      const container = document.getElementById('cardsContainer');
+      container.innerHTML = ''; // Clear previous content
+
+      cardsData.forEach(card => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'col-6 col-md-4 col-lg-3';
+        cardElement.id = card.id;
+        cardElement.innerHTML = `
+          <div class="card mb-2">
+            <img src="${card.image}" class="card-img-top" alt="${card.title}">
+            <div class="card-body">
+              <h5 class="card-title">${card.title}</h5>
+              <p class="card-text">
+                <div class="author">Author: ${card.author}</div>
+                <div class="isbn">ISBN: ${card.isbn}</div>
+                </p>
+                </div>
+                <button class="download-btn"><a href="http://link1.com" style= "color:black;text-decoration: none;"><span class="material-symbols-outlined">download </span></a></button>
+          </div>
+        `;
+        container.appendChild(cardElement);
+      });
+    }
+
+    function showSuggestions() {
+      const input = document.getElementById('searchInput');
+      const suggestionsContainer = document.getElementById('suggestions');
+      const query = input.value.toLowerCase();
+
+      suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+      if (query.length === 0) {
+        suggestionsContainer.style.display = 'none';
+        return;
+      }
+
+      const filteredTitles = titles.filter(title => title.text.toLowerCase().includes(query));
+      filteredTitles.forEach(title => {
+        const div = document.createElement('div');
+        div.className = 'suggestion-item';
+        div.textContent = title.text;
+        div.onclick = () => {
+          input.value = title.text; // Set input value to selected suggestion
+          suggestionsContainer.style.display = 'none'; // Hide suggestions
+          scrollToCard(title.id); // Scroll to the corresponding card
+        };
+        suggestionsContainer.appendChild(div);
+      });
+
+      suggestionsContainer.style.display = filteredTitles.length > 0 ? 'block' : 'none';
+    }
+
+    function scrollToCard(cardId) {
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Smooth scroll to the card
+      }
+    }
+
+    function searchFunction(event) {
+      event.preventDefault(); // Prevent form submission
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+
+      // Clear previous highlights
+      cards.forEach(card => {
+        const titleElement = card.querySelector('.card-title');
+        titleElement.innerHTML = titleElement.innerHTML.replace(/<span class="highlight">(.*?)<\/span>/g, '$1');
+      });
+
+      // Highlight matching titles
+      let found = false;
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title');
+        const titleText = title.innerText.toLowerCase();
+        const authorText = card.querySelector('.author').innerText.toLowerCase();
+        const isbnText = card.querySelector('.isbn').innerText.toLowerCase();
+
+        if (titleText.includes(query) || authorText.includes(query) || isbnText.includes(query)) {
+          title.innerHTML = highlightText(title.innerHTML, query);
+          found = true; // Set found to true if any title matches
+          scrollToCard(card.id); // Scroll to the matching card
+        } else {
+          title.innerHTML = title.innerText; // Reset if no match
+        }
+      });
+
+      // If no matches found, you can alert or handle it as needed
+      if (!found) {
+        alert('No matches found.');
+      }
+    }
+
+    function highlightText(text, query) {
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

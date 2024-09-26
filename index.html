@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Readhub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5vh;
+        }
+
+        .search-form {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 30px;
+            /* Rounded corners */
+            overflow: hidden;
+            /* Ensures the border-radius is respected */
+            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
+        }
+
+        .input-group {
+            display: flex;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da;
+            /* Light gray border */
+            border-radius: 30px 0 0 30px;
+            /* Rounded left corners */
+            padding: 12px 20px;
+            /* Padding for better spacing */
+            font-size: 16px;
+            /* Font size for readability */
+            transition: border-color 0.3s;
+            /* Smooth transition for focus */
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            /* Glow effect */
+            outline: none;
+            /* Remove default outline */
+        }
+
+        .btn {
+            border: none;
+            /* Remove default border */
+            border-radius: 0 30px 30px 0;
+            /* Rounded right corners */
+            padding: 12px 20px;
+            /* Padding for better spacing */
+            font-size: 16px;
+            /* Font size for readability */
+            background-color: #007bff;
+            /* Primary button color */
+            color: white;
+            /* Text color */
+            transition: background-color 0.3s;
+            /* Smooth transition for hover */
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+
+        .suggestions {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            width: 54%;
+            /* Set width to 100% to match the search box */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.1s;
+            /* Smooth transition for hover */
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+            /* Light gray on hover */
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5vh;
+        }
+
+        .search-form {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .card {
+            width: 200px;
+            /* Fixed width for card */
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card img {
+            width: 100%;
+            /* Make image responsive */
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .download-btn {
+            background-color: #FCDE70;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 0;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .highlighted-card {
+            border: 2px solid #007bff;
+            /* Highlight border */
+            margin: 10px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .highlighted-card:hover {
+            transform: scale(1.05);
+            /* Slightly scale on hover */
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow cards to wrap */
+            justify-content: flex-start;
+            /* Align cards to the left */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Readhub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <form class="search-form" onsubmit="return searchFunction(event)">
+            <div class="input-group">
+                <input class="form-control" type="search" placeholder="Search by title, author, or ISBN"
+                    aria-label="Search" id="searchInput" oninput="showSuggestions()">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+            <div id="suggestions" class="suggestions" style="display: none;"></div>
+        </form>
+    </div>
+
+    <div class="container mt-3" id="cardsContainer">
+        <!-- Cards will be injected here -->
+    </div>
+
+    <script>
+        let titles = [];
+        let cardsData = [];
+
+        // Fetch data from books.json when the page loads
+        window.onload = function () {
+            fetch('books.json')
+                .then(response => response.json())
+                .then(data => {
+                    cardsData = data; // Store fetched data in cardsData
+                    titles = cardsData.map(card => ({ text: card.title, id: card.id })); // Populate titles for suggestions
+                    renderCards(); // Render the cards on page load
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        };
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = ''; // Clear previous content
+
+            cardsData.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card'; // Normal card class
+                cardElement.id = card.id;
+                cardElement.innerHTML = `
+                    <img src="${card.image}" alt="${card.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${card.title}</h5>
+                        <p class="card-text">
+                            <div class="author">Author: ${card.author}</div>
+                            <div class="isbn">ISBN: ${card.isbn}</div>
+                        </p>
+                        <button class="download-btn"><a href="http://link1.com" style="color: black; text-decoration: none;">Download</a></button>
+                    </div>
+                `;
+                container.appendChild(cardElement);
+            });
+        }
+
+        function showSuggestions() {
+            const input = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('suggestions');
+            const query = input.value.toLowerCase();
+
+            suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+            if (query.length === 0) {
+                suggestionsContainer.style.display = 'none';
+                return;
+            }
+
+            const filteredTitles = titles.filter(title => title.text.toLowerCase().includes(query));
+            filteredTitles.forEach(title => {
+                const card = cardsData.find(card => card.title === title.text); // Get the corresponding card
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.textContent = `${title.text} by ${card.author}`; // Include author name
+                div.onclick = () => {
+                    input.value = title.text; // Set input value to selected suggestion
+                    suggestionsContainer.style.display = 'none'; // Hide suggestions
+                    scrollToCard(title.id); // Scroll to the corresponding card
+                };
+                suggestionsContainer.appendChild(div);
+            });
+
+            suggestionsContainer.style.display = filteredTitles.length > 0 ? 'block' : 'none';
+        }
+
+        function scrollToCard(cardId) {
+            const card = document.getElementById(cardId);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Smooth scroll to the card
+            }
+        }
+
+        function searchFunction(event) {
+            event.preventDefault(); // Prevent form submission
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('cardsContainer');
+
+            // Clear the container first
+            container.innerHTML = '';
+
+            // Filter cards based on the query
+            const filteredCards = cardsData.filter(card => {
+                const titleText = card.title.toLowerCase();
+                const authorText = card.author.toLowerCase();
+                const isbnText = card.isbn.toLowerCase();
+                return titleText.includes(query) || authorText.includes(query) || isbnText.includes(query);
+            });
+
+            // Check if any cards were found
+            if (filteredCards.length === 0) {
+                alert('No matches found.');
+                return;
+            }
+
+            // Render only the matching cards
+            filteredCards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card'; // Normal card class
+                cardElement.id = card.id;
+                cardElement.innerHTML = `
+                    <img src="${card.image}" alt="${card.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${card.title}</h5>
+                        <p class="card-text">
+                            <div class="author">Author: ${card.author}</div>
+                            <div class="isbn">ISBN: ${card.isbn}</div>
+                        </p>
+                        <button class="download-btn"><a href="http://link1.com" style="color: black; text-decoration: none;">Download</a></button>
+                    </div>
+                `;
+                container.appendChild(cardElement);
+            });
+        }
+        document.addEventListener('click', function (event) {
+            const input = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('suggestions');
+
+            // Check if the click was outside the input and suggestions
+            if (event.target !== input && !suggestionsContainer.contains(event.target)) {
+                suggestionsContainer.style.display = 'none'; // Hide suggestions
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+</body>
+</html>
