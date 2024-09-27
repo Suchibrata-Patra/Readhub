@@ -231,14 +231,17 @@
                 cardElement.id = card.id;
                 cardElement.innerHTML = `
                     <img src="${card.image}" alt="${card.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${card.title}</h5>
-                        <p class="card-text">
-                            <div class="author">Author: ${card.author}</div>
-                            <div class="isbn">ISBN: ${card.isbn}</div>
-                        </p>
-                        <button class="download-btn"><a href="http://link1.com" style="color: black; text-decoration: none;">Download</a></button>
-                    </div>
+<div class="card-body">
+    <h5 class="card-title">${card.title}</h5>
+    <div class="card-text">
+        <div class="author">Author: ${card.author}</div>
+        <div class="isbn">ISBN: ${card.isbn}</div>
+    </div>
+    <button class="download-btn">
+        <a href="${card.link}" style="color: black; text-decoration: none;">Download</a>
+    </button>
+</div>
+
                 `;
                 container.appendChild(cardElement);
             });
